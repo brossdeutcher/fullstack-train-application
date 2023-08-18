@@ -34,8 +34,6 @@ router.get("/:id", async (req, res) => {
 
 //Creates a new station
 router.post("/", async (req, res) => {
-  //TODO
-  console.log(req.body);
   try {
     const station = await prisma.station.create({
       data: req.body
@@ -52,12 +50,37 @@ router.post("/", async (req, res) => {
 
 //Updates the station with specified id
 router.put("/:id", async (req, res) => {
-  //TODO
+  try {
+    const station = await prisma.station.update({
+      where: {
+        id: Number(req.params.id)
+      },
+      data: req.body
+    });
+    if (station) {
+      res.send(station);
+    } else {
+      res.send({error: true, message: "station not found"});
+    }  
+  } catch (err) {
+    res.send(err);
+  }
 });
 
 //Deletes a station
 router.delete("/:id", async (req, res) => {
-  //TODO
+  try {
+    const station = await prisma.station.delete({
+      where: {id: Number(req.params.id)}
+    });
+    if (station) {
+      res.send(station);
+    } else {
+      res.send({error: true, message: "station not found"});
+    }  
+  } catch (err) {
+    res.send(err);
+  }
 });
 
 module.exports = router;
