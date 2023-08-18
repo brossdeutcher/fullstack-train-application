@@ -35,6 +35,19 @@ router.get("/:id", async (req, res) => {
 //Creates a new station
 router.post("/", async (req, res) => {
   //TODO
+  console.log(req.body);
+  try {
+    const station = await prisma.station.create({
+      data: req.body
+    });
+    if (station) {
+      res.send(station);
+    } else {
+      res.send({error: true, message: "Could not post new station"});
+    }
+  } catch (err) {
+    res.send(err);
+  }
 });
 
 //Updates the station with specified id
