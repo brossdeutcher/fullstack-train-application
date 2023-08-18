@@ -36,7 +36,8 @@ router.post('/signin', async (req, res) => {
   if (user) {
     const passwordMatch = bcrypt.compare(password, user.password);
     if (passwordMatch) {
-      res.send(user);
+      const token = jwt.sign({id: user.id}, process.env.JWT);
+      res.send({token});
     }
   } else {
     res.send("invalid login");
